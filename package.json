@@ -1,9 +1,9 @@
 {
-  "name": "excel-custom-functions",
+  "name": "excel-custom-functions-js",
   "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OfficeDev/Excel-Custom-Functions.git"
+    "url": "https://github.com/OfficeDev/Excel-Custom-Functions-JS.git"
   },
   "license": "MIT",
   "scripts": {
