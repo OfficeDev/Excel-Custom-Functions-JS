@@ -15,5 +15,5 @@ function increment(incrementBy, callback) {
   };
 }
 
-CustomFunctionMappings.ADD = add;
-CustomFunctionMappings.INCREMENT = increment;
+CustomFunctions.associate("add", add);
+CustomFunctions.associate("increment", increment);
