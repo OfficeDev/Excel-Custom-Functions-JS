@@ -11,6 +11,7 @@
     "watch": "webpack -p --mode development --watch"
   },
   "devDependencies": {
+    "@types/custom-functions-runtime": "^1.4.8",
     "concurrently": "^4.0.1",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
@@ -18,7 +19,6 @@
     "office-toolbox": "^0.1.0",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
-    "webpack-command": "^0.4.1",
     "webpack-dev-server": "^3.1.1"
   }
 }
