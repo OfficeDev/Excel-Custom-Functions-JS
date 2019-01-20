@@ -1,5 +1,6 @@
 ﻿/**
  * Add two numbers
+ * @customfunction 
  * @param {number} first 
  * @param {number} second 
  * @returns {number} The sum of first and second.
@@ -10,21 +11,23 @@ function add(first, second) {
 
 /**
  * Returns the current time once a second
- * @param {*} callback 
+ * @customfunction 
+ * @param handler {CustomFunctions.StreamingHandler<string>} Custom function handler  
  */
-function clock(callback) {
+function clock(handler) {
   const timer = setInterval(() => {
     const time = currentTime();
-    callback.setResult(time);
+    handler.setResult(time);
   }, 1000);
 
-  callback.onCanceled = () => {
+  handler.onCanceled = () => {
     clearInterval(timer);
   };
 }
 
 /**
  * Returns the current time
+ * @customfunction 
  * @returns {string} String containing the current time formatted for the current locale.
  */
 function currentTime() {
@@ -33,23 +36,25 @@ function currentTime() {
 
 /**
  * Increments a number once a second.
+ * @customfunction 
  * @param {number} incrementBy Amount to increment
- * @param {*} callback 
+ * @param {*} handler 
  */
-function increment(incrementBy, callback) {
+function increment(incrementBy, handler) {
   let result = 0;
   const timer = setInterval(() => {
     result += incrementBy;
-    callback.setResult(result);
+    handler.setResult(result);
   }, 1000);
 
-  callback.onCanceled = () => {
+  handler.onCanceled = () => {
     clearInterval(timer);
   };
 }
 
 /**
  * Writes a message to console.log().
+ * @customfunction 
  * @param {string} message String to log
  */
 function logMessage(message) {
