@@ -1,10 +1,12 @@
+const devCerts = require("office-addin-dev-certs");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CustomFunctionsMetadataPlugin = require("custom-functions-metadata-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
 const webpack = require("webpack");
 
-module.exports = (env, options) => {
+module.exports = async (env, options) => {
   const dev = options.mode === "development";
   const config = {
     devtool: "source-map",
@@ -12,7 +14,7 @@ module.exports = (env, options) => {
       functions: "./src/functions/functions.js",
       polyfill: 'babel-polyfill',
       taskpane: "./src/taskpane/taskpane.js",
-      ribbon: "./src/ribbon/ribbon.js"
+      commands: "./src/commands/commands.js"
     },
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"]
@@ -37,12 +39,10 @@ module.exports = (env, options) => {
     },
     plugins: [
       new CleanWebpackPlugin(dev ? [] : ["dist"]),
-      new CopyWebpackPlugin([
-        {
-          to: "functions.json",
-          from: "./src/functions/functions.json"
-        }
-      ]),
+      new CustomFunctionsMetadataPlugin({
+        output: "functions.json",
+        input: "./src/functions/functions.js"
+      }),
       new HtmlWebpackPlugin({
         filename: "functions.html",
         template: "./src/functions/functions.html",
@@ -60,20 +60,16 @@ module.exports = (env, options) => {
         }
       ]),
       new HtmlWebpackPlugin({
-        filename: "ribbon.html",
-        template: "./src/ribbon/ribbon.html",
-        chunks: ['polyfill', 'ribbon']
+        filename: "commands.html",
+        template: "./src/commands/commands.html",
+        chunks: ["polyfill", "commands"]
       }),
     ],
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*"
       },
-      https: {
-        key: fs.readFileSync("./certs/server.key"),
-        cert: fs.readFileSync("./certs/server.crt"),
-        ca: fs.readFileSync("./certs/ca.crt")
-      },
+      https: await devCerts.getHttpsServerOptions(),
       port: 3000
     }
   };
