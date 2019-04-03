@@ -1,5 +1,6 @@
 ﻿/**
  * Add two numbers
+ * @customfunction 
  * @param {number} first First number
  * @param {number} second Second number
  * @returns {number} The sum of the two numbers.
@@ -7,9 +8,11 @@
 function add(first, second) {
   return first + second;
 }
+CustomFunctions.associate("ADD", add);
 
 /**
  * Displays the current time once a second
+ * @customfunction 
  * @param {CustomFunctions.StreamingInvocation<string>} invocation Custom function invocation
  */
 function clock(invocation) {
@@ -22,6 +25,7 @@ function clock(invocation) {
     clearInterval(timer);
   };
 }
+CustomFunctions.associate("CLOCK", clock);
 
 /**
  * Returns the current time
@@ -33,8 +37,9 @@ function currentTime() {
 
 /**
  * Increments a value once a second.
+ * @customfunction 
  * @param {number} incrementBy Amount to increment
- * @param {CustomFunction.StreamingInvocation<number>} invocation
+ * @param {CustomFunctions.StreamingInvocation<number>} invocation
  */
 function increment(incrementBy, invocation) {
   let result = 0;
@@ -47,9 +52,11 @@ function increment(incrementBy, invocation) {
     clearInterval(timer);
   };
 }
+CustomFunctions.associate("INCREMENT", increment);
 
 /**
  * Writes a message to console.log().
+ * @customfunction LOG
  * @param {string} message String to write.
  * @returns String to write.
  */
@@ -58,12 +65,4 @@ function logMessage(message) {
 
   return message;
 }
-
-/**
- * Defines the implementation of the custom functions
- * for the function id defined in the metadata file (functions.json).
- */
-CustomFunctions.associate("ADD", add);
-CustomFunctions.associate("CLOCK", clock);
-CustomFunctions.associate("INCREMENT", increment);
 CustomFunctions.associate("LOG", logMessage);
