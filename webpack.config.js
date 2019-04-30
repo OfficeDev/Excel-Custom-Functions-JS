@@ -12,7 +12,7 @@ module.exports = async (env, options) => {
     devtool: "source-map",
     entry: {
       functions: "./src/functions/functions.js",
-      polyfill: 'babel-polyfill',
+      polyfill: "@babel/polyfill",
       taskpane: "./src/taskpane/taskpane.js",
       commands: "./src/commands/commands.js"
     },
@@ -24,7 +24,7 @@ module.exports = async (env, options) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          use: 'babel-loader'
+          use: "babel-loader"
         },
         {
           test: /\.html$/,
@@ -38,7 +38,9 @@ module.exports = async (env, options) => {
       ]
     },
     plugins: [
-      new CleanWebpackPlugin(dev ? [] : ["dist"]),
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: dev ? [] : ["**/*"]
+      }),
       new CustomFunctionsMetadataPlugin({
         output: "functions.json",
         input: "./src/functions/functions.js"
@@ -46,12 +48,12 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "functions.html",
         template: "./src/functions/functions.html",
-        chunks: ['polyfill', 'functions']
+        chunks: ["polyfill", "functions"]
       }),
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
-        chunks: ['polyfill', 'taskpane']
+        chunks: ["polyfill", "taskpane"]
       }),
       new CopyWebpackPlugin([
         {
@@ -63,7 +65,7 @@ module.exports = async (env, options) => {
         filename: "commands.html",
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"]
-      }),
+      })
     ],
     devServer: {
       headers: {
