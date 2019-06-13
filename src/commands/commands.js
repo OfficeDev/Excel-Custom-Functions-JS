@@ -11,7 +11,7 @@ Office.onReady(info => {
  * Shows a notification when the add-in command is executed.
  * @param event 
  */
-function action(event: Office.AddinCommands.Event) {
+function action(event) {
   // Your code goes here
 
   // Be sure to indicate when the add-in command function is complete
@@ -25,7 +25,7 @@ function getGlobal() {
     undefined;
 }
 
-const g = getGlobal() as any;
+const g = getGlobal();
 
 // the add-in command functions need to be available in global scope
 g.action = action;

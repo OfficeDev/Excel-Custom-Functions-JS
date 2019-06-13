@@ -61,7 +61,7 @@ module.exports = async (env, options) => {
             }),
             new CustomFunctionsMetadataPlugin({
                 output: "functions.json",
-                input: path.resolve(__dirname, './../src/functions/functions.ts')
+                input: path.resolve(__dirname, './../src/functions/functions.js')
             }),
             new HtmlWebpackPlugin({
                 filename: "functions.html",
