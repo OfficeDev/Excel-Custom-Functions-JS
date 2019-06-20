@@ -8,7 +8,6 @@
 function add(first, second) {
   return first + second;
 }
-CustomFunctions.associate("ADD", add);
 
 /**
  * Displays the current time once a second
@@ -25,7 +24,6 @@ function clock(invocation) {
     clearInterval(timer);
   };
 }
-CustomFunctions.associate("CLOCK", clock);
 
 /**
  * Returns the current time
@@ -52,7 +50,6 @@ function increment(incrementBy, invocation) {
     clearInterval(timer);
   };
 }
-CustomFunctions.associate("INCREMENT", increment);
 
 /**
  * Writes a message to console.log().
@@ -65,4 +62,3 @@ function logMessage(message) {
 
   return message;
 }
-CustomFunctions.associate("LOG", logMessage);
