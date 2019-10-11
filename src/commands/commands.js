@@ -3,13 +3,14 @@
  * See LICENSE in the project root for license information.
  */
 
-Office.onReady(info => {
+
+Office.onReady(() => {
   // If needed, Office.js is ready to be called
 });
 
 /**
  * Shows a notification when the add-in command is executed.
- * @param event 
+ * @param event
  */
 function action(event) {
   // Your code goes here
@@ -18,11 +19,14 @@ function action(event) {
   event.completed();
 }
 
-function getGlobal() { 
-  return (typeof self !== "undefined") ? self :
-    (typeof window !== "undefined") ? window : 
-    (typeof global !== "undefined") ? global :
-    undefined;
+function getGlobal() {
+  return typeof self !== "undefined"
+    ? self
+    : typeof window !== "undefined"
+    ? window
+    : typeof global !== "undefined"
+    ? global
+    : undefined;
 }
 
 const g = getGlobal();
