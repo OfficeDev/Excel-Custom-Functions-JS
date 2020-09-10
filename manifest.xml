@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" 
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
   <Id>a5f6b5ea-9bf1-4a7c-97ac-1759754457c3</Id>
   <Version>1.0.0.0</Version>
@@ -13,7 +13,7 @@
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
   <SupportUrl DefaultValue="https://www.contoso.com/help"/>
   <AppDomains>
-    <AppDomain>contoso.com</AppDomain>
+    <AppDomain>https://www.contoso.com</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Workbook"/>
