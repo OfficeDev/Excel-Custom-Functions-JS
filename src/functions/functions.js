@@ -16,6 +16,9 @@ function add(first, second) {
  */
 function clock(invocation) {
   const timer = setInterval(() => {
+    let currentTime = () => {
+      return new Date().toLocaleTimeString();
+    }
     const time = currentTime();
     invocation.setResult(time);
   }, 1000);
@@ -23,14 +26,6 @@ function clock(invocation) {
   invocation.onCanceled = () => {
     clearInterval(timer);
   };
-}
-
-/**
- * Returns the current time
- * @returns {string} String with the current time formatted for the current locale.
- */
-function currentTime() {
-  return new Date().toLocaleTimeString();
 }
 
 /**

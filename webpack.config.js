@@ -5,8 +5,12 @@ const CustomFunctionsMetadataPlugin = require("custom-functions-metadata-plugin"
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
+const urlDev="https://localhost:3000/";
+const urlProd="https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
+  const buildType = dev ? "dev" : "prod";
   const config = {
     devtool: "source-map",
     entry: {
@@ -50,14 +54,9 @@ module.exports = async (env, options) => {
         input: "./src/functions/functions.js"
       }),
       new HtmlWebpackPlugin({
-        filename: "functions.html",
-        template: "./src/functions/functions.html",
-        chunks: ["polyfill", "functions"]
-      }),
-      new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
-        chunks: ["polyfill", "taskpane"]
+        chunks: ["polyfill", "taskpane", "functions", "commands"]
       }),
       new CopyWebpackPlugin([
         {
@@ -65,11 +64,24 @@ module.exports = async (env, options) => {
           from: "./src/taskpane/taskpane.css"
         }
       ]),
-      new HtmlWebpackPlugin({
-        filename: "commands.html",
-        template: "./src/commands/commands.html",
-        chunks: ["polyfill", "commands"]
-      })
+      
+      new CopyWebpackPlugin([
+        {
+          to: "taskpane.css",
+          from: "./src/taskpane/taskpane.css"
+        },
+        {
+          to: "[name]." + buildType + ".[ext]",
+          from: "manifest*.xml",
+          transform(content) {
+            if (dev) {
+              return content;
+            } else {
+              return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+            }
+          }
+        }
+      ])
     ],
     devServer: {
       headers: {
