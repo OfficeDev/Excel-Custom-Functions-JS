@@ -56,7 +56,7 @@
     "office-addin-lint": "^1.0.29",
     "office-addin-manifest": "1.5.0",
     "office-addin-prettier-config": "^1.0.12",
-    "office-addin-test-helpers": "^1.0.20",
+    "office-addin-test-helpers": "^1.0.27",
     "office-addin-test-server": "^1.0.27",
     "source-map-loader": "^0.2.4",
     "ts-loader": "^6.2.2",
