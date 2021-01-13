@@ -16,6 +16,8 @@
     "build": "webpack -p --mode production --https false",
     "build:dev": "webpack --mode development --https false",
     "build-dev": "webpack --mode development --https false && echo . && echo . && echo . && echo Please use 'build:dev' instead of 'build-dev'.",
+    "check-win32": "node -e \"if (process.platform != 'win32') throw new Error('cannot run clean command outside of Windows')\"",
+    "clean-cache": "npm run --silent check-win32 && del /S /Q %LOCALAPPDATA%\\Microsoft\\Office\\16.0\\Wef\\* && rmdir /S /Q %LOCALAPPDATA%\\Microsoft\\Office\\16.0\\Wef\\ && mkdir %LOCALAPPDATA%\\Microsoft\\Office\\16.0\\Wef\\ && npx office-addin-dev-settings unregister all",
     "convert-to-single-host": "node convertToSingleHost.js",
     "dev-server": "webpack-dev-server --mode development",
     "lint": "office-addin-lint check",
@@ -25,7 +27,7 @@
     "start:desktop": "office-addin-debugging start manifest.xml desktop",
     "start:web": "office-addin-debugging start manifest.xml web",
     "stop": "office-addin-debugging stop manifest.xml",
-    "test": "mocha -r ts-node/register test/*.ts",
+    "test": "npm run --silent clean-cache & mocha -r ts-node/register test/*.ts",
     "validate": "office-addin-manifest validate manifest.xml",
     "watch": "webpack --mode development --watch"
   },
