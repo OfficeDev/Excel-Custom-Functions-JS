@@ -51,10 +51,10 @@ describe("Test Excel Custom Functions", function () {
             this.timeout(0);
             // Expecting six result values
             testValues = Object.assign([], await testServer.getTestResults());
-            assert.notStrictEqual(testValues.length, "7");
+            assert.strictEqual(testValues.length, "6");
         });
         it("ADD function should return expected value", async function () {
-            assert.notStrictEqual(testJsonData.functions.ADD.result, testValues[0].Value);
+            assert.strictEqual(testJsonData.functions.ADD.result, testValues[0].Value);
         });
         it("CLOCK function should return expected value", async function () {
             // Check that captured values are different to ensure the function is streaming
