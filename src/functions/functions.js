@@ -1,6 +1,6 @@
 ﻿/**
  * Add two numbers
- * @customfunction 
+ * @customfunction
  * @param {number} first First number
  * @param {number} second Second number
  * @returns {number} The sum of the two numbers.
@@ -11,11 +11,14 @@ function add(first, second) {
 
 /**
  * Displays the current time once a second
- * @customfunction 
+ * @customfunction
  * @param {CustomFunctions.StreamingInvocation<string>} invocation Custom function invocation
  */
 function clock(invocation) {
   const timer = setInterval(() => {
+    let currentTime = () => {
+      return new Date().toLocaleTimeString();
+    };
     const time = currentTime();
     invocation.setResult(time);
   }, 1000);
@@ -26,16 +29,8 @@ function clock(invocation) {
 }
 
 /**
- * Returns the current time
- * @returns {string} String with the current time formatted for the current locale.
- */
-function currentTime() {
-  return new Date().toLocaleTimeString();
-}
-
-/**
  * Increments a value once a second.
- * @customfunction 
+ * @customfunction
  * @param {number} incrementBy Amount to increment
  * @param {CustomFunctions.StreamingInvocation<number>} invocation
  */

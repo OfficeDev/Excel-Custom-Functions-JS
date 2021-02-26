@@ -4,7 +4,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const CustomFunctionsMetadataPlugin = require("custom-functions-metadata-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path');
-const webpack = require("webpack");
 
 module.exports = async (env, options) => {
     const dev = options.mode === "development";
@@ -59,14 +58,9 @@ module.exports = async (env, options) => {
                 input: path.resolve(__dirname, './../src/functions/functions.js')
             }),
             new HtmlWebpackPlugin({
-                filename: "functions.html",
-                template: path.resolve(__dirname, './../src/functions/functions.html'),
-                chunks: ["polyfill", "functions"]
-            }),
-            new HtmlWebpackPlugin({
                 filename: "taskpane.html",
                 template: path.resolve(__dirname, './src/test-taskpane.html'),
-                chunks: ["polyfill", "taskpane"]
+                chunks: ["polyfill", "taskpane", "functions", "commands"]
             }),
             new CopyWebpackPlugin([
                 {
@@ -74,11 +68,6 @@ module.exports = async (env, options) => {
                     from: path.resolve(__dirname, './../src/taskpane/taskpane.css')
                 }
             ]),
-            new HtmlWebpackPlugin({
-                filename: "commands.html",
-                template: path.resolve(__dirname, './src/test-commands.html'),
-                chunks: ["polyfill", "commands"]
-            }),
         ],
         devServer: {
             headers: {

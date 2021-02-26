@@ -29,13 +29,12 @@
       }
     },
     {
-      "label": "Debug: Desktop",
+      "label": "Debug: Excel Desktop",
       "type": "npm",
       "script": "start:desktop",
       "presentation": {
         "clear": true,
-        "panel": "shared",
-        "showReuseMessage": false
+        "panel": "dedicated",
       },
       "problemMatcher": []
     },

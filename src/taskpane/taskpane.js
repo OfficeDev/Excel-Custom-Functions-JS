@@ -10,7 +10,7 @@ Office.initialize = () => {
   document.getElementById("run").onclick = run;
 };
 
-async function run() {
+export async function run() {
   try {
     await Excel.run(async context => {
       /**
