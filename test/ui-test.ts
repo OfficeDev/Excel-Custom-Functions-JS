@@ -54,7 +54,7 @@ describe("Test Excel Custom Functions", function () {
             assert.strictEqual(testValues.length, 7);
         });
         it("ADD function should return expected value", async function () {
-            assert.strictEqual(testJsonData.functions.ADD.result, testValues[0].Value);
+            assert.strictEqual(Number(testJsonData.functions.ADD.result), testValues[0].Value);
         });
         it("CLOCK function should return expected value", async function () {
             // Check that captured values are different to ensure the function is streaming
