@@ -35,7 +35,7 @@ module.exports = async (env, options) => {
                     use: "babel-loader"
                 },
                 {
-                    test: /\.ts?$/,
+                    test: /\.tsx?$/,
                     exclude: /node_modules/,
                     use: "ts-loader"
                 },
