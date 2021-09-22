@@ -1,12 +1,20 @@
+/* eslint-disable no-undef */
+
 const devCerts = require("office-addin-dev-certs");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const CustomFunctionsMetadataPlugin = require("custom-functions-metadata-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
 
-const urlDev="https://localhost:3000/";
-const urlProd="https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+const urlDev = "https://localhost:3000/";
+const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+
+/* global require, module, process, __dirname */
+
+async function getHttpsOptions() {
+  const httpsOptions = await devCerts.getHttpsServerOptions();
+  return { cacert: httpsOptions.ca, key: httpsOptions.key, cert: httpsOptions.cert };
+}
 
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
@@ -14,13 +22,16 @@ module.exports = async (env, options) => {
   const config = {
     devtool: "source-map",
     entry: {
+      polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       functions: "./src/functions/functions.js",
-      polyfill: "@babel/polyfill",
       taskpane: "./src/taskpane/taskpane.js",
-      commands: "./src/commands/commands.js"
+      commands: "./src/commands/commands.js",
+    },
+    output: {
+      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".html", ".js"]
+      extensions: [".ts", ".tsx", ".html", ".js"],
     },
     module: {
       rules: [
@@ -30,73 +41,76 @@ module.exports = async (env, options) => {
           use: {
             loader: "babel-loader", 
             options: {
-              presets: ["@babel/preset-env"]
-            }
-          }
+              presets: ["@babel/preset-env"],
+            },
+          },
         },
         {
           test: /\.html$/,
           exclude: /node_modules/,
-          use: "html-loader"
+          use: "html-loader",
         },
         {
-          test: /\.(png|jpg|jpeg|gif)$/,
+          test: /\.(png|jpg|jpeg|gif|ico)$/,
           loader: "file-loader",
           options: {
-            name: '[path][name].[ext]',          
-          }
-        }
-      ]
+            name: "[path][name].[ext]",
+          },
+        },
+      ],
     },
     plugins: [
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: dev ? [] : ["**/*"],
-        cleanAfterEveryBuildPatterns: dev ? ["!**/*"] : []
+        cleanAfterEveryBuildPatterns: dev ? ["!**/*"] : [],
       }),
       new CustomFunctionsMetadataPlugin({
         output: "functions.json",
-        input: "./src/functions/functions.js"
+        input: "./src/functions/functions.js",
       }),
       new HtmlWebpackPlugin({
         filename: "functions.html",
         template: "./src/functions/functions.html",
-        chunks: ["polyfill", "functions"]
+        chunks: ["polyfill", "functions"],
       }),
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
-        chunks: ["polyfill", "taskpane"]
+        chunks: ["polyfill", "taskpane"],
       }),
-      new CopyWebpackPlugin([
-        {
-          to: "taskpane.css",
-          from: "./src/taskpane/taskpane.css"
-        },
-        {
-          to: "[name]." + buildType + ".[ext]",
-          from: "manifest*.xml",
-          transform(content) {
-            if (dev) {
-              return content;
-            } else {
-              return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
-            }
-          }
-        }
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: "./src/taskpane/taskpane.css",
+            to: "taskpane.css",
+          },
+          {
+            from: "manifest*.xml",
+            to: "[name]." + buildType + "[ext]",
+            transform(content) {
+              if (dev) {
+                return content;
+              } else {
+                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+              }
+            },
+          },
+        ],
+      }),
       new HtmlWebpackPlugin({
         filename: "commands.html",
         template: "./src/commands/commands.html",
-        chunks: ["polyfill", "commands"]
-      })
+        chunks: ["polyfill", "commands"],
+      }),
     ],
     devServer: {
+      static: [__dirname],
       headers: {
-        "Access-Control-Allow-Origin": "*"
-      },      
-      https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
-      port: process.env.npm_package_config_dev_server_port || 3000
-    }
+        "Access-Control-Allow-Origin": "*",
+      },
+      https: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
+      port: process.env.npm_package_config_dev_server_port || 3000,
+    },
   };
 
   return config;
