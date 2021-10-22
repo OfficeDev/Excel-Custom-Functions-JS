@@ -1,9 +1,17 @@
 import * as functionsJsonData from "./test-data.json";
 import { pingTestServer, sendTestResults } from "office-addin-test-helpers";
 import { closeWorkbook, sleep } from "./test-helpers";
-import { run } from "../../src/taskpane/taskpane";
 
-/* global Office, Excel, document */
+// images references in the manifest
+/* eslint-disable no-unused-vars */
+import icon16 from "../../assets/icon-16.png";
+import icon32 from "../../assets/icon-32.png";
+import icon64 from "../../assets/icon-64.png";
+import icon80 from "../../assets/icon-80.png";
+import icon128 from "../../assets/icon-128.png";
+/* eslint-enable no-unused-vars */
+
+/* global Office, document, Excel, run */
 const customFunctionsData = (<any>functionsJsonData).functions;
 const port: number = 4201;
 let testValues = [];
@@ -15,13 +23,13 @@ Office.initialize = async () => {
 
   const testServerResponse: object = await pingTestServer(port);
   if (testServerResponse["status"] === 200) {
-    await runCfTests(testServerResponse["platform"]);
+    await runCfTests();
     await sendTestResults(testValues, port);
     await closeWorkbook();
   }
 };
 
-async function runCfTests(platform: string): Promise<void> {
+async function runCfTests(): Promise<void> {
   // Exercise custom functions
   await Excel.run(async (context) => {
     for (let key in customFunctionsData) {
@@ -33,31 +41,29 @@ async function runCfTests(platform: string): Promise<void> {
       await sleep(5000);
 
       // Check to if this is a streaming function
-      await readCFData(key, customFunctionsData[key].streaming != undefined ? 2 : 1, platform)
+      await readCFData(key, customFunctionsData[key].streaming != undefined ? 2 : 1);
     }
   });
 }
 
-export async function readCFData(cfName: string, readCount: number, platform: string): Promise<boolean> {
-  return new Promise<boolean>(async (resolve, reject) => {
-    await Excel.run(async (context) => {
-      // if this is a streaming function, we want to capture two values so we can
-      // validate the function is indeed streaming
-      for (let i = 0; i < readCount; i++) {
-        try {
-          const range = context.workbook.getSelectedRange();
-          range.load("values");
-          await context.sync();
+export async function readCFData(cfName: string, readCount: number): Promise<void> {
+  await Excel.run(async (context) => {
+    // if this is a streaming function, we want to capture two values so we can
+    // validate the function is indeed streaming
+    for (let i = 0; i < readCount; i++) {
+      try {
+        const range = context.workbook.getSelectedRange();
+        range.load("values");
+        await context.sync();
 
-          await sleep(5000);
+        await sleep(5000);
 
-          addTestResult(cfName, range.values[0][0]);
-          resolve(true);
-        } catch {
-          reject(false);
-        }
+        addTestResult(cfName, range.values[0][0]);
+        Promise.resolve();
+      } catch {
+        Promise.reject();
       }
-    });
+    }
   });
 }
 
