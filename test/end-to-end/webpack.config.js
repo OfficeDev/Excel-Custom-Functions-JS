@@ -20,7 +20,7 @@ module.exports = async (env, options) => {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       commands: "./src/commands/commands.js",
       functions: "./src/functions/functions.js",
-      taskpane: "./test/src/test-taskpane.ts",
+      taskpane: "./test/end-to-end/src/test-taskpane.ts",
     },
     output: {
       path: path.resolve(__dirname, "testBuild"),
@@ -88,17 +88,17 @@ module.exports = async (env, options) => {
       }),
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
-        template: "./test/src/test-taskpane.html",
+        template: "./test/end-to-end/src/test-taskpane.html",
         chunks: ["polyfill", "taskpane"],
       }),
       new HtmlWebpackPlugin({
         filename: "commands.html",
-        template: "./test/src/test-commands.html",
+        template: "./test/end-to-end/src/test-commands.html",
         chunks: ["polyfill", "commands"],
       }),
     ],
     devServer: {
-      static: [__dirname + "\\.."],
+      static: ["./"],
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
