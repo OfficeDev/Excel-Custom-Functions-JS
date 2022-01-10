@@ -1,4 +1,3 @@
-
 import * as childProcess from "child_process";
 
 /* global process, Excel, setTimeout */
