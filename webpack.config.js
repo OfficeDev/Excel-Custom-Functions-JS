@@ -38,7 +38,17 @@ module.exports = async (env, options) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "ts-loader"
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+            },
+          },
+        },
+        {
+          test: /functions.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "ts-loader",
           },
         },
         {
