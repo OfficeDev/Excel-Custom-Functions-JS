@@ -26,7 +26,6 @@ module.exports = async (env, options) => {
       commands: "./src/commands/commands.js",
     },
     output: {
-      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
       clean: true,
     },
     resolve: {
@@ -42,13 +41,6 @@ module.exports = async (env, options) => {
             options: {
               presets: ["@babel/preset-env"],
             },
-          },
-        },
-        {
-          test: /functions.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: "ts-loader",
           },
         },
         {
