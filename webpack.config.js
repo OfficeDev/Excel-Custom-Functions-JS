@@ -4,6 +4,7 @@ const devCerts = require("office-addin-dev-certs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const CustomFunctionsMetadataPlugin = require("custom-functions-metadata-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 const urlDev = "https://localhost:3000/";
 const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
@@ -21,16 +22,15 @@ module.exports = async (env, options) => {
     devtool: "source-map",
     entry: {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
-      functions: "./src/functions/functions.js",
       taskpane: "./src/taskpane/taskpane.js",
       commands: "./src/commands/commands.js",
+      functions: "./src/functions/functions.js",
     },
     output: {
-      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
       clean: true,
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".html", ".js"],
+      extensions: [".html", ".js"],
     },
     module: {
       rules: [
@@ -38,7 +38,7 @@ module.exports = async (env, options) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader", 
+            loader: "babel-loader",
             options: {
               presets: ["@babel/preset-env"],
             },
@@ -99,7 +99,10 @@ module.exports = async (env, options) => {
       }),
     ],
     devServer: {
-      static: [__dirname],
+      static: {
+        directory: path.join(__dirname, "dist"),
+        publicPath: "/public",
+      },
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
