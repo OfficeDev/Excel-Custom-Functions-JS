@@ -14,7 +14,15 @@ Office.onReady(() => {
  * @param event
  */
 function action(event) {
-  // Your code goes here
+  const message = {
+    type: Office.MailboxEnums.ItemNotificationMessageType.InformationalMessage,
+    message: "Performed action.",
+    icon: "Icon.80x80",
+    persistent: true,
+  };
+
+  // Show a notification message
+  Office.context.mailbox.item.notificationMessages.replaceAsync("action", message);
 
   // Be sure to indicate when the add-in command function is complete
   event.completed();

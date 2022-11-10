@@ -1,5 +1,4 @@
-﻿/* eslint-disable @typescript-eslint/no-unused-vars */
-/* global console setInterval, clearInterval */
+﻿/* global clearInterval, console, setInterval */
 
 /**
  * Add two numbers
@@ -8,7 +7,7 @@
  * @param {number} second Second number
  * @returns {number} The sum of the two numbers.
  */
-function add(first, second) {
+export function add(first, second) {
   return first + second;
 }
 
@@ -17,7 +16,7 @@ function add(first, second) {
  * @customfunction
  * @param {CustomFunctions.StreamingInvocation<string>} invocation Custom function invocation
  */
-function clock(invocation) {
+ export function clock(invocation) {
   const timer = setInterval(() => {
     const time = currentTime();
     invocation.setResult(time);
@@ -32,7 +31,7 @@ function clock(invocation) {
  * Returns the current time
  * @returns {string} String with the current time formatted for the current locale.
  */
-function currentTime() {
+ export function currentTime() {
   return new Date().toLocaleTimeString();
 }
 
@@ -42,7 +41,7 @@ function currentTime() {
  * @param {number} incrementBy Amount to increment
  * @param {CustomFunctions.StreamingInvocation<number>} invocation
  */
-function increment(incrementBy, invocation) {
+ export function increment(incrementBy, invocation) {
   let result = 0;
   const timer = setInterval(() => {
     result += incrementBy;
@@ -60,7 +59,7 @@ function increment(incrementBy, invocation) {
  * @param {string} message String to write.
  * @returns String to write.
  */
-function logMessage(message) {
+ export function logMessage(message) {
   console.log(message);
 
   return message;

@@ -30,7 +30,7 @@ module.exports = async (env, options) => {
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"],
       fallback: {
-        child_process: false,
+        child_process: path.resolve(__dirname, "./../../node_modules/child_process/package.json"),
         fs: false,
         os: require.resolve("os-browserify/browser"),
       },
@@ -82,19 +82,9 @@ module.exports = async (env, options) => {
         input: "./src/functions/functions.js",
       }),
       new HtmlWebpackPlugin({
-        filename: "functions.html",
-        template: "./src/functions/functions.html",
-        chunks: ["polyfill", "functions"],
-      }),
-      new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./test/end-to-end/src/test-taskpane.html",
-        chunks: ["polyfill", "taskpane"],
-      }),
-      new HtmlWebpackPlugin({
-        filename: "commands.html",
-        template: "./test/end-to-end/src/test-commands.html",
-        chunks: ["polyfill", "commands"],
+        chunks: ["polyfill", "taskpane", "functions", "commands"],
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -107,7 +97,7 @@ module.exports = async (env, options) => {
     ],
     devServer: {
       static: {
-        directory: path.join("./", "dist"),
+        directory: path.resolve("./", "dist"),
         publicPath: "/public",
       },
       headers: {
