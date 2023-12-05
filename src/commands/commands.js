@@ -6,7 +6,7 @@
 /* global global, Office, self, window */
 
 Office.onReady(() => {
-  // If needed, Office.js is ready to be called
+  // If needed, Office.js is ready to be called.
 });
 
 /**
@@ -16,21 +16,9 @@ Office.onReady(() => {
 function action(event) {
   // Your code goes here
 
-  // Be sure to indicate when the add-in command function is complete
+  // Be sure to indicate when the add-in command function is complete.
   event.completed();
 }
 
-function getGlobal() {
-  return typeof self !== "undefined"
-    ? self
-    : typeof window !== "undefined"
-    ? window
-    : typeof global !== "undefined"
-    ? global
-    : undefined;
-}
-
-const g = getGlobal();
-
-// the add-in command functions need to be available in global scope
-g.action = action;
+// Register the function with Office.
+Office.actions.associate("action", action);
