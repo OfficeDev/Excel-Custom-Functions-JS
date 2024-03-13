@@ -62,7 +62,7 @@ async function updatePackageJsonFile() {
   await writeFileAsync(packageJson, JSON.stringify(content, null, 2));
 }
 
-async function updateLaunchJsonFile(host) {
+async function updateLaunchJsonFile() {
   // Remove 'Debug Tests' configuration from launch.json
   const launchJson = `.vscode/launch.json`;
   const launchJsonContent = await readFileAsync(launchJson, "utf8");
