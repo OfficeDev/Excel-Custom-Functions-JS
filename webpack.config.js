@@ -89,10 +89,6 @@ module.exports = async (env, options) => {
       }),
     ],
     devServer: {
-      static: {
-        directory: path.join(__dirname, "dist"),
-        publicPath: "/public",
-      },
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
