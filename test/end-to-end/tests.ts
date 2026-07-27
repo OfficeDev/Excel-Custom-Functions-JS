@@ -26,8 +26,8 @@ describe("Test Excel Custom Functions", function () {
       this.timeout(0);
       // Start test server and ping to ensure it's started
       const testServerStarted = await testServer.startTestServer(true /* mochaTest */);
-      const serverResponse = await pingTestServer(port);
-      assert.strictEqual(serverResponse["status"], 200);
+      const serverResponse = (await pingTestServer(port)) as { status?: number };
+      assert.strictEqual(serverResponse.status, 200);
       assert.strictEqual(testServerStarted, true);
 
       // Call startDebugging to start dev-server and sideload
@@ -45,7 +45,7 @@ describe("Test Excel Custom Functions", function () {
     describe("Get test results for custom functions and validate results", function () {
       it("should get results from the taskpane application", async function () {
         this.timeout(testResultsTimeout + 10000);
-        let timeoutId: ReturnType<typeof setTimeout>;
+        let timeoutId!: ReturnType<typeof setTimeout>;
         const timeoutPromise = new Promise<never>((_, reject) => {
           timeoutId = setTimeout(
             () =>
@@ -138,20 +138,22 @@ describe("Test Excel Custom Functions", function () {
       await startDebugging(manifestPathDebugging, options);
     });
     describe("Test Debugger", function () {
-      let ws: WebSocket;
+      let ws: WebSocket | undefined;
       before("Open websocket connection to Debugger", async function () {
         this.timeout(60 * 1000);
         ws = await connectToWebsocket();
         assert.notStrictEqual(ws, undefined, "Unable to connect to the websocket.");
       });
       it("enable debugging", async function () {
+        assert.ok(ws, "WebSocket connection was not established.");
         await enableDebugging(ws);
       });
       it("pause debugging", async function () {
+        assert.ok(ws, "WebSocket connection was not established.");
         await pauseDebugging(ws);
       });
       after("Close websocket connection", async function () {
-        ws.close();
+        ws?.close();
       });
     });
     after("Teardown test environment", async function () {

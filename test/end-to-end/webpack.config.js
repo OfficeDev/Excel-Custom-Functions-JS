@@ -31,8 +31,6 @@ module.exports = async (env, options) => {
       extensions: [".ts", ".tsx", ".html", ".js"],
       fallback: {
         child_process: false,
-        fs: false,
-        os: require.resolve("os-browserify/browser"),
       },
     },
     module: {

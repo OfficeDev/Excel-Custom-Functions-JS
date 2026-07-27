@@ -8,14 +8,14 @@ const port: number = 4201;
 let testValues: any[] = [];
 
 Office.onReady(async () => {
-  document.getElementById("sideload-msg").style.display = "none";
-  document.getElementById("app-body").style.display = "flex";
-  document.getElementById("run").onclick = run;
+  document.getElementById("sideload-msg")!.style.display = "none";
+  document.getElementById("app-body")!.style.display = "flex";
+  document.getElementById("run")!.onclick = run;
   addTestResult("UserAgent", navigator.userAgent);
 
   try {
-    const testServerResponse: object = await pingTestServer(port);
-    if (testServerResponse["status"] === 200) {
+    const testServerResponse = (await pingTestServer(port)) as { status?: number };
+    if (testServerResponse.status === 200) {
       await runCfTests();
       await sendTestResults(testValues, port);
       await closeWorkbook();
@@ -41,7 +41,7 @@ async function runCfTests(): Promise<void> {
 
         await sleep(5000);
 
-        await readCFData(key, customFunctionsData[key].streaming != undefined ? 2 : 1);
+        await readCFData(key, customFunctionsData[key].streaming !== undefined ? 2 : 1);
       }
     });
   } catch (err) {
@@ -66,10 +66,9 @@ export async function readCFData(cfName: string, readCount: number): Promise<voi
 }
 
 function addTestResult(resultName: string, resultValue: any) {
-  var data = {};
-  var nameKey = "Name";
-  var valueKey = "Value";
-  data[nameKey] = resultName;
-  data[valueKey] = resultValue;
+  const data = {
+    Name: resultName,
+    Value: resultValue,
+  };
   testValues.push(data);
 }
