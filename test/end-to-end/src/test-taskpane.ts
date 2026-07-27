@@ -67,8 +67,8 @@ export async function readCFData(cfName: string, readCount: number): Promise<voi
 
 function addTestResult(resultName: string, resultValue: any) {
   const data = {
-    Name: resultName,
-    Value: resultValue,
+    resultName,
+    resultValue,
   };
   testValues.push(data);
 }
