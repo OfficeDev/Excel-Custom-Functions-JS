@@ -62,7 +62,6 @@
     "office-addin-prettier-config": "^2.0.5",
     "office-addin-test-helpers": "^2.0.7",
     "office-addin-test-server": "^2.0.7",
-    "os-browserify": "^0.3.0",
     "process": "^0.11.10",
     "request": "^2.88.2",
     "source-map-loader": "^5.0.0",
