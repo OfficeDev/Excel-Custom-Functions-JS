@@ -65,10 +65,10 @@ export async function readCFData(cfName: string, readCount: number): Promise<voi
   });
 }
 
-function addTestResult(resultName: string, resultValue: any) {
+function addTestResult(Name: string, Value: any) {
   const data = {
-    resultName,
-    resultValue,
+    Name,
+    Value,
   };
   testValues.push(data);
 }

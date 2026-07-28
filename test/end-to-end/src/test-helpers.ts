@@ -17,23 +17,23 @@ export async function closeWorkbook(): Promise<void> {
 
 export type TestResult = {
   expectedValue: any;
-  resultName: string;
-  resultValue: any;
+  Name: string;
+  Value: any;
 };
 
-export function addTestResult(testValues: any[], resultName: string, resultValue: any, expectedValue: any) {
+export function addTestResult(testValues: any[], Name: string, Value: any, expectedValue: any) {
   const data: TestResult = {
     expectedValue,
-    resultName,
-    resultValue,
+    Name,
+    Value,
   };
   testValues.push(data);
 }
 
 export function addErrorResult(testValues: any[], errorMessage: string) {
   testValues.push({
-    resultName: "test-error",
-    resultValue: errorMessage,
+    Name: "test-error",
+    Value: errorMessage,
     expectedValue: "no-error",
   });
 }

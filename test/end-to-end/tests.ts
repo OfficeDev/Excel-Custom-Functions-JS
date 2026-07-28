@@ -64,13 +64,13 @@ describe("Test Excel Custom Functions", function () {
           clearTimeout(timeoutId);
         }
 
-        const errorResult = testValues.find((value: any) => value.resultName === "test-error");
+        const errorResult = testValues.find((value: any) => value.Name === "test-error");
         if (errorResult) {
-          assert.fail(`[${host}] Taskpane reported error: ${errorResult.resultValue}`);
+          assert.fail(`[${host}] Taskpane reported error: ${errorResult.Value}`);
         }
 
         // Expecting six result values + user agent
-        testValues = testValues.filter((value: any) => value.resultName !== "test-error");
+        testValues = testValues.filter((value: any) => value.Name !== "test-error");
         assert.strictEqual(testValues.length > 0, true, `No test results received from ${host} add-in`);
         console.log(`User Agent: ${testValues[0].Value}`);
         assert.strictEqual(testValues.length, 7);
