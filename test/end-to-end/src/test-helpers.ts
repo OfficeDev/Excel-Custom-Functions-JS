@@ -15,12 +15,67 @@ export async function closeWorkbook(): Promise<void> {
   }
 }
 
-export function addTestResult(testValues: any[], resultName: string, resultValue: any, expectedValue: any) {
-  var data = {};
-  data["expectedValue"] = expectedValue;
-  data["resultName"] = resultName;
-  data["resultValue"] = resultValue;
+export type TestResult = {
+  expectedValue: any;
+  name: string;
+  value: any;
+};
+
+export function addTestResult(testValues: any[], name: string, value: any, expectedValue: any) {
+  const data: TestResult = {
+    expectedValue,
+    name,
+    value,
+  };
   testValues.push(data);
+}
+
+export function addErrorResult(testValues: any[], errorMessage: string) {
+  testValues.push({
+    name: "test-error",
+    value: errorMessage,
+    expectedValue: "no-error",
+  });
+}
+
+export function formatError(err: any): string {
+  if (!err) {
+    return "Unknown error (null/undefined)";
+  }
+
+  const parts: string[] = [];
+
+  if (err.message) {
+    parts.push(`Message: ${err.message}`);
+  } else {
+    parts.push(`${err}`);
+  }
+
+  if (err.code) {
+    parts.push(`Code: ${err.code}`);
+  }
+
+  if (err.debugInfo) {
+    if (err.debugInfo.code) {
+      parts.push(`DebugCode: ${err.debugInfo.code}`);
+    }
+    if (err.debugInfo.message) {
+      parts.push(`DebugMessage: ${err.debugInfo.message}`);
+    }
+    if (err.debugInfo.errorLocation) {
+      parts.push(`Location: ${err.debugInfo.errorLocation}`);
+    }
+    if (err.debugInfo.innerError) {
+      const inner = err.debugInfo.innerError;
+      parts.push(`InnerError: ${inner.code || ""} ${inner.message || JSON.stringify(inner)}`.trim());
+    }
+  }
+
+  if (err.stack) {
+    parts.push(`Stack: ${err.stack}`);
+  }
+
+  return parts.join(" | ");
 }
 
 export async function closeDesktopApplication(): Promise<boolean> {

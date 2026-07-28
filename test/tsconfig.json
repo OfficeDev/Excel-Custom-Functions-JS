@@ -1,18 +1,18 @@
 {
     "compilerOptions": {
         "allowJs": true,
-        "baseUrl": ".",
-        "experimentalDecorators": true,
-        "jsx": "react",
-        "noEmitOnError": true,
-        "outDir": "lib",
+        "checkJs": false,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "node16",
+        "moduleResolution": "node16",
+        "noEmit": true,
+        "skipLibCheck": true,
         "sourceMap": true,
-        "target": "es5",
+        "strict": true,
+        "target": "es6",
+        "lib": ["es2015", "dom"],
+        "types": ["mocha", "node", "office-js", "office-runtime"]
     },
-    "exclude": [
-        "node_modules",
-        "dist",
-        "lib",
-        "lib-amd"
-    ]
+    "include": ["./**/*.ts"]
 }
