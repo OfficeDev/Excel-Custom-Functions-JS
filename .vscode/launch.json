@@ -14,7 +14,7 @@
         "--colors",
         "${workspaceFolder}/test/end-to-end",
         "-r",
-        "ts-node/register",
+        "${workspaceFolder}/test/register-ts-node.js",
         "${workspaceFolder}/test/end-to-end/*.ts"
       ],
       "internalConsoleOptions": "openOnSessionStart",
@@ -33,7 +33,7 @@
         "--colors",
         "${workspaceFolder}/test/unit",
         "-r",
-        "ts-node/register",
+        "${workspaceFolder}/test/register-ts-node.js",
         "${workspaceFolder}/test/unit/*.test.ts"
       ],
       "internalConsoleOptions": "openOnSessionStart",
