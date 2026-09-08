@@ -305,8 +305,9 @@ if (projectName) {
   }
 
   // Modify the manifest to include the name and id of the project
-  const cmdLine = `npx office-addin-manifest modify ${manifestPath} -g ${appId} -d "${projectName}"`;
-  childProcess.exec(cmdLine, (error, stdout) => {
+  const manifestCli = require.resolve("office-addin-manifest/cli.js");
+  const args = [manifestCli, "modify", manifestPath, "-g", appId, "-d", projectName];
+  childProcess.execFile(process.execPath, args, { shell: false }, (error, stdout) => {
     if (error) {
       console.error(`Error updating the manifest: ${error}`);
       process.exitCode = 1;
